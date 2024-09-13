@@ -1795,6 +1795,7 @@ class HookedTransformer(HookedRootModule):
         easier to interpret the head's output. Formally, we take b_O_new = b_O_original +
         sum_head(b_V_head @ W_O_head).
         """
+        # print(state_dict.device)
         for layer in range(self.cfg.n_layers):
             # shape [head_index, d_head]
             if self.cfg.n_key_value_heads is None:
@@ -1808,7 +1809,8 @@ class HookedTransformer(HookedRootModule):
             W_O = state_dict[f"blocks.{layer}.attn.W_O"]
             # [d_model]
             b_O_original = state_dict[f"blocks.{layer}.attn.b_O"]
-            folded_b_O = b_O_original + (b_V[:, :, None] * W_O).sum([0, 1])
+            # print(b_O_original.device, b_V[:, :, None].device, W_O.device)
+            folded_b_O = b_O_original + (b_V[:, :, None] * W_O.to("cpu")).sum([0, 1])
 
             state_dict[f"blocks.{layer}.attn.b_O"] = folded_b_O
             if self.cfg.n_key_value_heads is None:

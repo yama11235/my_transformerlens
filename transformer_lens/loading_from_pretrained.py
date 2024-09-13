@@ -1674,7 +1674,8 @@ def get_pretrained_state_dict(
                 )
 
             # Load model weights, and fold in layer norm weights
-
+        print(hf_model.config._name_or_path)
+        
         for param in hf_model.parameters():
             param.requires_grad = False
 
