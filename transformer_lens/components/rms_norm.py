@@ -41,5 +41,5 @@ class RMSNorm(nn.Module):
         scale: Float[torch.Tensor, "batch pos 1"] = self.hook_scale(
             (x.pow(2).mean(-1, keepdim=True) + self.eps).sqrt()
         )
-        x = self.hook_normalized(x / scale).to(self.cfg.dtype)  # [batch, pos, length]
+        x = self.hook_normalized(x / scale).to(self.cfg.dtype).to(self.w.device)  # [batch, pos, length]
         return x * self.w

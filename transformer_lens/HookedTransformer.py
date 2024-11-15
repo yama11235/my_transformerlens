@@ -25,6 +25,10 @@ from packaging import version
 from transformers import AutoModelForCausalLM, AutoTokenizer, PreTrainedTokenizerBase
 from typing_extensions import Literal
 
+import sys
+local_path = "/works/data0/yama11235/TransformerLens"
+sys.path.insert(0, local_path)
+
 import transformer_lens.loading_from_pretrained as loading
 import transformer_lens.utils as utils
 from transformer_lens.ActivationCache import ActivationCache
@@ -1340,6 +1344,7 @@ class HookedTransformer(HookedRootModule):
         Wrapper for from_pretrained with all boolean flags related to simplifying the model set to
         False. Refer to from_pretrained for details.
         """
+        print("custom transformer_lens")
         return cls.from_pretrained(
             model_name,
             fold_ln=fold_ln,

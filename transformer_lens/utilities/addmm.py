@@ -30,6 +30,6 @@ def batch_addmm(
     """
     n_output_features = weight.shape[-1]
     size_out = x.size()[:-1] + (n_output_features,)
-    x = vanilla_addmm(bias, x.view(-1, x.size(-1)), weight)
+    x = vanilla_addmm(bias, x.view(-1, x.size(-1)).to(weight.device), weight)
     x = x.view(size_out)
     return x
